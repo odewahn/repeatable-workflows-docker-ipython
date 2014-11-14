@@ -29,9 +29,53 @@ _November 19, 2014_
 
 ---
 
+#  About O'Reilly Media
+
+.center[<img src="images/about-orm.png" width=70%/>]
+
+
+---
+
+# Agenda
+
+* O'Reilly's interests in IPython Notebooks
+* Quick introduction to IPython Notebook
+* Docker for shareable, repeatable environments
+
+
+---
+
+# O'Reilly and IPython Notebooks
+
+* Looking to offer Notebook-based learning content (online and in person) 
+* Lessons learned using Docker to create repeatable workflows for IPython Notebooks
+* [Just Enough Math](https://github.com/odewahn/jem-docker) by [Paco Nathan](http://liber118.com/pxn/)
+
+.center[<img src="images/jem-strata.png" width=90%/>]
+
+---
+
+
 # IPython Notebooks
 
-Recently featured in [Sharing the code](http://www.nature.com/news/interactive-notebooks-sharing-the-code-1.16261) in _Nature_, IPython Notebooks are "an open-source, interactive computing environment that lets you combine live code, narrative text, mathematics, plots and rich media in one document."
+### "an open-source, interactive computing environment that lets you combine live code, narrative text, mathematics, plots and rich media in one document."
+
+* Featured in [Sharing the code](http://www.nature.com/news/interactive-notebooks-sharing-the-code-1.16261) in _Nature_
+* 500K – 1.5M users
+* Used in scientific community to "narrate computation" and collaborate
+* The [gallery](https://github.com/ipython/ipython/wiki/A-gallery-of-interesting-IPython-Notebooks#reproducible-academic-publications) has an amazingly diverse range of uses
+  * [A Crash Course in Python for Scientists](http://nbviewer.ipython.org/gist/rpmuller/5920182), by Sandia's Rick Muller.
+  * 
+
+---
+
+# Browser-based authoring application for text and math
+
+<img src="images/ipynb-edit.png" width=100%/>
+
+---
+
+# Can also run code and graphing applications
 
 <img src="images/ipynb.png" width=100%/>
 
@@ -39,10 +83,53 @@ Recently featured in [Sharing the code](http://www.nature.com/news/interactive-n
 
 # Interactive Demo from Nature
 
-## Here's something!
 
-[Nature Interactive Demo](http://www.nature.com/news/ipython-interactive-demo-7.21492)
+.center[## [Nature's interactive demo](http://www.nature.com/news/ipython-interactive-demo-7.21492)]
 
+---
+
+# Collaborate using git and GitHub
+
+* Because it's text, you can collaborate w/colleagues on GitHub
+
+* Easy way to share work with colleagues
+
+* flow workflow (branch -- commit -- merge), although it can be painful with JSON
+
+
+
+
+
+---
+
+# Dockerfile
+
+The Dockerfile allows you to specify a base image, add your dependencies and code, setup the environment, and other "tradional" sysadmin-style tasks.  
+
+Here's the [Dockerfile](https://github.com/odewahn/jem-docker/blob/master/Dockerfile) file from _Just Enough Math_.
+
+```Dockerfile
+FROM ipython/scipystack
+MAINTAINER Paco Nathan "http://liber118.com/pxn/"
+
+ADD src/ /tmp
+RUN /tmp/install.sh
+
+ENV DEBIAN_FRONTEND noninteractive
+
+RUN apt-get update && \
+  apt-get --no-install-recommends install -y libglpk-dev && \
+  ...
+  pip install git+https://github.com/rafacarrascosa/countminsketch
+
+RUN apt-get install -y libsm6 libxrender1 libfontconfig1 libXext6
+
+EXPOSE 8888
+
+WORKDIR /usr/src/notebook
+
+CMD ipython2 notebook --ip=0.0.0.0 --no-browser
+```
 
 
 
@@ -76,5 +163,6 @@ web:
     <script>
       var slideshow = remark.create();
     </script>
+    (c) Andrew Odewahn
   </body>
 </html>
