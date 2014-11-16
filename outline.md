@@ -14,8 +14,6 @@
 * Packaged a math tutorial written in IPython Notebook as a Docker container for a conference
 
 
-Lessons learned about creating repeatable workflows for using IPython Notebooks and Docker
-
 # Overview
 
 * Quick intro to IPython Notebook

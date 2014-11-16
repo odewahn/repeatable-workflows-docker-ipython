@@ -3,55 +3,48 @@
   <head>
     <title>Title</title>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
-    <style type="text/css">
-      @import url(//fonts.googleapis.com/css?family=Yanone+Kaffeesatz);
-      @import url(//fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic);
-      @import url(//fonts.googleapis.com/css?family=Ubuntu+Mono:400,700,400italic);
 
-      body { font-family: 'Droid Serif'; }
-      h1, h2, h3 {
-        font-family: 'Yanone Kaffeesatz';
-        font-weight: normal;
-      }
-      .remark-code, .remark-inline-code { font-family: 'Ubuntu Mono'; }
-    </style>
+    <link href='assets/html.css' rel='stylesheet' type='text/css'> </link>
+
   </head>
   <body>
-    <textarea id="source">
+	
+  <a href="https://github.com/odewahn/repeatable-workflows-docker-ipython">
+    <img src="https://s3.amazonaws.com/orm-atlas-media/fork-on-github.png" class="fork-on-github"/>
+  </a>
+
+	
+<textarea id="source">
 
 class: center, middle
 
-# Repeatable Workflows with <br> Docker and IPython
+# Repeatable Workflows with <br> Docker and IPython Notebooks
 
-Andrew Odewahn
+## Andrew Odewahn
+### O'Reilly Media
 
 _November 19, 2014_
 
 ---
 
-#  About O'Reilly Media
+# Not this guy...
+
+.center[<img src="images/not-this-guy.png" width=70%/>]
+
+
+---
+
+#  These guys...
 
 .center[<img src="images/about-orm.png" width=70%/>]
-
 
 ---
 
 # Agenda
 
-* O'Reilly's interests in IPython Notebooks
 * Quick introduction to IPython Notebook
-* Docker for shareable, repeatable environments
-
-
----
-
-# O'Reilly and IPython Notebooks
-
-* Looking to offer Notebook-based learning content (online and in person) 
-* Lessons learned using Docker to create repeatable workflows for IPython Notebooks
-* [Just Enough Math](https://github.com/odewahn/jem-docker) by [Paco Nathan](http://liber118.com/pxn/)
-
-.center[<img src="images/jem-strata.png" width=90%/>]
+* O'Reilly experiments with IPython Notebooks
+* Docker for shareable, repeatable learning environments
 
 ---
 
@@ -60,12 +53,31 @@ _November 19, 2014_
 
 ### "an open-source, interactive computing environment that lets you combine live code, narrative text, mathematics, plots and rich media in one document."
 
-* Featured in [Sharing the code](http://www.nature.com/news/interactive-notebooks-sharing-the-code-1.16261) in _Nature_
 * 500K – 1.5M users
 * Used in scientific community to "narrate computation" and collaborate
-* The [gallery](https://github.com/ipython/ipython/wiki/A-gallery-of-interesting-IPython-Notebooks#reproducible-academic-publications) has an amazingly diverse range of uses
-  * [A Crash Course in Python for Scientists](http://nbviewer.ipython.org/gist/rpmuller/5920182), by Sandia's Rick Muller.
-  * 
+* Applications as varied as
+  * Data visualization and plotting
+  * Earth Science and Geo-Spatial data
+  * Economics
+  * Machine Learning
+  * Physics, Chemistry, Biology
+  * Psychology and Neuroscience
+  * Social sciences
+  * Statistics, Machine Learning and Data Science
+
+---
+
+# Selections from the [Gallery](https://github.com/ipython/ipython/wiki/A-gallery-of-interesting-IPython-Notebooks#reproducible-academic-publications) 
+
+###  [A Crash Course in Python for Scientists](http://nbviewer.ipython.org/gist/rpmuller/5920182) by Rick Muller
+
+### [Warming Ocean Threatens Sea Life](http://www.scientificamerican.com/article.cfm?id=warming-ocean-threatens-sea-life) by Roberto de Almeida
+
+###  [St. Louis County Segregation Analysis](http://nbviewer.ipython.org/github/buzzfeednews/2014-08-st-louis-county-segregation/blob/master/notebooks/segregation-analysis.ipynb) by  Jeremy Singer-Vine
+
+### [Automatic segmentation of odor maps in the mouse olfactory bulb using regularized non-negative matrix factorization](http://www.sciencedirect.com/science/article/pii/S1053811914003103) by J. Soelter
+
+### [Fractals, complex numbers, and your imagination](http://nbviewer.ipython.org/github/cfangmeier/ipython_notebooks/blob/master/Imagination.ipynb), by Caleb Fangmeier
 
 ---
 
@@ -81,10 +93,18 @@ _November 19, 2014_
 
 ---
 
-# Interactive Demo from Nature
+# Interactive Demo
+
+* The Notebook was featured in _Nature_'s [Sharing the code](http://www.nature.com/news/interactive-notebooks-sharing-the-code-1.16261) 
+* The article included a live demo
 
 
-.center[## [Nature's interactive demo](http://www.nature.com/news/ipython-interactive-demo-7.21492)]
+<span class="remark-slide-content center" >
+   <a href="http://www.nature.com/news/ipython-interactive-demo-7.21492" target="_blank">
+      <img src="images/nature-logo.png"/>
+   </a>
+</span>
+
 
 ---
 
@@ -94,9 +114,43 @@ _November 19, 2014_
 
 * Easy way to share work with colleagues
 
-* flow workflow (branch -- commit -- merge), although it can be painful with JSON
+* flow worow (branch -- commit -- merge), although it can be painful with JSON
 
 
+---
+
+# JSON data with a well-defined format
+
+* Internally, Notebooks uses a JSON format composed of "cells"
+  * Heading
+  * Markdown
+  * Code
+
+```javascript
+{
+ "cell_type": "markdown",
+ "metadata": {},
+ "source": [
+  "### The Units of Probability Density\n",
+  "\n",
+  "This is an important thing to remember: the units of a ", 
+  "probability density are the inverse of the units of the",
+  "quantity in question. Keeping this in mind will help you",
+  "recognize all sorts of common mistakes in computations of probability."
+ ]
+
+```
+
+
+---
+
+# O'Reilly and IPython Notebooks
+
+* Looking to offer Notebook-based learning content (online and in person) 
+* Lessons learned using Docker to create repeatable workflows for IPython Notebooks
+* [Just Enough Math](https://github.com/odewahn/jem-docker) by [Paco Nathan](http://liber118.com/pxn/)
+
+.center[<img src="images/jem-strata.png" width=90%/>]
 
 
 
@@ -106,29 +160,17 @@ _November 19, 2014_
 
 The Dockerfile allows you to specify a base image, add your dependencies and code, setup the environment, and other "tradional" sysadmin-style tasks.  
 
-Here's the [Dockerfile](https://github.com/odewahn/jem-docker/blob/master/Dockerfile) file from _Just Enough Math_.
+Here's the simple Dockerfile you might use with IPython:
 
 ```Dockerfile
 FROM ipython/scipystack
-MAINTAINER Paco Nathan "http://liber118.com/pxn/"
+MAINTAINER Andrew Odewahn "http://odewahn.com"
 
-ADD src/ /tmp
-RUN /tmp/install.sh
+RUN apt-get update
+RUN pip install Flask
 
-ENV DEBIAN_FRONTEND noninteractive
+CMD ipython notebook --ip=0.0.0.0 --no-browser
 
-RUN apt-get update && \
-  apt-get --no-install-recommends install -y libglpk-dev && \
-  ...
-  pip install git+https://github.com/rafacarrascosa/countminsketch
-
-RUN apt-get install -y libsm6 libxrender1 libfontconfig1 libXext6
-
-EXPOSE 8888
-
-WORKDIR /usr/src/notebook
-
-CMD ipython2 notebook --ip=0.0.0.0 --no-browser
 ```
 
 
@@ -163,6 +205,6 @@ web:
     <script>
       var slideshow = remark.create();
     </script>
-    (c) Andrew Odewahn
+
   </body>
 </html>
