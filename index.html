@@ -216,7 +216,7 @@ _November 19, 2014_
 
 The Dockerfile allows you to specify a base image, add your dependencies and code, setup the environment, and other "traditional" sysadmin-style tasks.  
 
-Here's the simple Dockerfile example:
+Here's an example.  The highlighted lines select the base image:
 
 ```bash
 *FROM ipython/scipystack
@@ -233,9 +233,32 @@ CMD ipython notebook --ip=0.0.0.0 --no-browser
 
 ---
 
+# Dockerfile -- Adding Dependencies
+
+The Dockerfile allows you to specify a base image, add your dependencies and code, setup the environment, and other "traditional" sysadmin-style tasks.  
+
+Here's an example.  The highlighted lines select add some dependencies:
+
+```bash
+FROM ipython/scipystack
+MAINTAINER Andrew Odewahn "http://odewahn.com"
+
+*RUN apt-get update
+*RUN pip install Flask
+
+WORKDIR /usr/src
+
+CMD ipython notebook --ip=0.0.0.0 --no-browser
+
+```
+
+---
+
 # fig.yml
 
 [Fig](http://www.fig.sh/) provides a simple way to build and start Docker containers should start.
+
+The highlighted lines map the current directory on the host to `/usr/src` in the container:
 
 ```yml
 web:
