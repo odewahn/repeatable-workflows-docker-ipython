@@ -21,6 +21,7 @@ class: center, middle
 # Repeatable Workflows with <br> Docker and IPython Notebooks
 
 ## Andrew Odewahn
+@odewahn
 ### O'Reilly Media
 
 _November 19, 2014_
@@ -36,15 +37,28 @@ _November 19, 2014_
 
 #  These guys...
 
-.center[<img src="images/about-orm.png" width=70%/>]
+.center[<img src="images/about-orm.png" width=100%/>]
+
+
+---
+
+# About me
+
+* Founder of [Atlas](https://atlas.oreilly.com), O'Reilly Media's next generation authoring tool
+* Currently exploring how to produce "next generation content"
+* I'm really excited about [IPython Notebooks](http://ipython.org/notebook.html) and the workflows needed to produce them
+
+.center[<img src="images/atlas.png" width=80%/>]
 
 ---
 
 # Agenda
 
-* Quick introduction to IPython Notebook
-* O'Reilly experiments with IPython Notebooks
-* Docker for shareable, repeatable learning environments
+## Quick introduction to [IPython Notebooks](http://ipython.org/notebook.html)
+
+## O'Reilly experiments with IPython Notebooks
+
+## Docker as a critical tool for shareable, repeatable environments
 
 ---
 
@@ -54,7 +68,7 @@ _November 19, 2014_
 ### "an open-source, interactive computing environment that lets you combine live code, narrative text, mathematics, plots and rich media in one document."
 
 * 500K – 1.5M users
-* Used in scientific community to "narrate computation" and collaborate
+* Used in scientific community to "narrate computation"
 * Applications as varied as
   * Data visualization and plotting
   * Earth Science and Geo-Spatial data
@@ -68,6 +82,8 @@ _November 19, 2014_
 ---
 
 # Selections from the [Gallery](https://github.com/ipython/ipython/wiki/A-gallery-of-interesting-IPython-Notebooks#reproducible-academic-publications) 
+
+###  [An Introduction to Applied Bioinformatics](https://github.com/odewahn/An-Introduction-To-Applied-Bioinformatics)
 
 ###  [A Crash Course in Python for Scientists](http://nbviewer.ipython.org/gist/rpmuller/5920182) by Rick Muller
 
@@ -105,28 +121,34 @@ _November 19, 2014_
    </a>
 </span>
 
+---
+
+# O'Reilly and IPython Notebooks
+
+* Powerful tool for creating learning experiences
+* Looking to offer Notebook-based learning content (online and in person) 
+* [Just Enough Math](https://github.com/odewahn/jem-docker) by [Paco Nathan](http://liber118.com/pxn/) at Strata (~200 attendees)
+
+.center[<img src="images/jem-strata.png" width=90%/>]
+
+---
+# Content originated in [Atlas](https://atlas.oreilly.com)
+
+.center[<img src="images/atlas-ipynb.png" width=80%/>]
 
 ---
 
-# Collaborate using git and GitHub
+# JSON data format
 
-* Because it's text, you can collaborate w/colleagues on GitHub
-
-* Easy way to share work with colleagues
-
-* flow worow (branch -- commit -- merge), although it can be painful with JSON
-
-
----
-
-# JSON data with a well-defined format
-
+* Atlas source was [HTML5](https://github.com/oreillymedia/HTMLBook)
+* Converting to Notebook format (`ipynb`) was straightforward
 * Internally, Notebooks uses a JSON format composed of "cells"
   * Heading
   * Markdown
   * Code
 
 ```javascript
+...
 {
  "cell_type": "markdown",
  "metadata": {},
@@ -138,58 +160,126 @@ _November 19, 2014_
   "quantity in question. Keeping this in mind will help you",
   "recognize all sorts of common mistakes in computations of probability."
  ]
+},
+...
 
 ```
 
+---
+
+# Collaborative Workflows using git and GitHub
+
+* GitHub provides easy way to share work with colleagues and collaborators, and is the preferred way to share Notebook content
+* Notebooks are plain JSON text, so you _can_ collaborate effectively using git / GitHub (more on this later)
+* Supports the classic [git flow](http://nvie.com/posts/a-successful-git-branching-model/) model
+  * Clone the repository
+  * Make a local branch
+  * Commit locally
+  * Push local commits to a new branch
+  * Send a pull request
 
 ---
 
-# O'Reilly and IPython Notebooks
+# Sharing Notebook text is easy, but ensuring a common *computing environment* emerged as a key challenge
 
-* Looking to offer Notebook-based learning content (online and in person) 
-* Lessons learned using Docker to create repeatable workflows for IPython Notebooks
-* [Just Enough Math](https://github.com/odewahn/jem-docker) by [Paco Nathan](http://liber118.com/pxn/)
+* We started with [conda](http://conda.pydata.org/)
+* This broke down quickly
+  * Different versions of Python (2 vs 3)
+  * Different package managers (pip, brew, easy_install, etc)
+  * Non-Python based packages (i.e., Fortran-based numerical computing libraries)
+  * Missing backing services (databases, redis, etc)
 
-.center[<img src="images/jem-strata.png" width=90%/>]
+---
 
+# Docker to the rescue
 
+.center[<img src="images/docker-logo.png" width=90%/>]
+
+* Easy way to reuse and modify "base" images
+* Simple formats (Dockerfile and Fig files) for specifying project-specific dependencies
+* Ability to package everything (code, server, and dependencies) into a shareable image
+* Easy to take snapshots and audit across time
+
+---
+
+# Pre-built base images
+
+* Many project, IPython Notebooks included, offer pre-built images with many of the dependencies already installed (and maintained!)
+* I started with [ipython/scipystack](https://registry.hub.docker.com/u/ipython/scipystack/)
+  * cython, h5py, matplotlib, numpy, pandas, patsy, scikit-learn, scipy, seaborn, sympy, yt
+
+.center[<img src="images/dockerhub.png" width=80%/>]
 
 ---
 
 # Dockerfile
 
-The Dockerfile allows you to specify a base image, add your dependencies and code, setup the environment, and other "tradional" sysadmin-style tasks.  
+The Dockerfile allows you to specify a base image, add your dependencies and code, setup the environment, and other "traditional" sysadmin-style tasks.  
 
-Here's the simple Dockerfile you might use with IPython:
+Here's the simple Dockerfile example:
 
-```Dockerfile
-FROM ipython/scipystack
+```bash
+*FROM ipython/scipystack
 MAINTAINER Andrew Odewahn "http://odewahn.com"
 
 RUN apt-get update
 RUN pip install Flask
 
+WORKDIR /usr/src
+
 CMD ipython notebook --ip=0.0.0.0 --no-browser
 
 ```
-
-
 
 ---
 
 # fig.yml
 
-Adding a fig file makes the notebooks simple to start, and also enables you to easily mount a local volume.  
-
-Here's the [fig.yml](https://github.com/odewahn/jem-docker/blob/master/fig.yml) file from _Just Enough Math_.
+[Fig](http://www.fig.sh/) provides a simple way to build and start Docker containers should start.
 
 ```yml
 web:
   build: .
-  volumes:
-    - .:/usr/src:rw
+*  volumes:
+*    - .:/usr/src:rw
   ports:
     - "8888:8888"
+```
+
+---
+
+# Simple to package and share
+
+```bash
+$ docker build -t odewahn/jem-docker .
+$ docker push odewahn/jem-docker
+```
+
+.center[<img src="images/pushed-image.png" width=80%/>]
+
+---
+# Audit trail
+
+```bash
+$ docker history <container_id>
+```
+
+```bash
+$ docker history 8f7d
+IMAGE               CREATED             CREATED BY                                      SIZE
+8f7d431f32fa        2 weeks ago         /bin/sh -c #(nop) CMD [/bin/sh -c ipython2 no   0 B
+88dfeda79e2c        2 weeks ago         /bin/sh -c #(nop) WORKDIR /usr/src/notebook     0 B
+de650a94a6e0        2 weeks ago         /bin/sh -c #(nop) EXPOSE map[8888/tcp:{}]       0 B
+56f049f53134        2 weeks ago         /bin/sh -c apt-get install -y libsm6 libxrend   34.12 kB
+03f86519d96f        2 weeks ago         /bin/sh -c apt-get update &&   apt-get --no-i   31.53 MB
+c3fd655b60d5        2 weeks ago         /bin/sh -c #(nop) ENV DEBIAN_FRONTEND=noninte   0 B
+b2ba800a57e2        2 weeks ago         /bin/sh -c /tmp/install.sh                      209.5 MB
+2a51781b35d9        2 weeks ago         /bin/sh -c #(nop) ADD dir:5df532452cfce9cbd1a   798 B
+43373a8e96f8        2 weeks ago         /bin/sh -c #(nop) MAINTAINER Paco Nathan "htt   0 B
+b2346ec6f907        2 weeks ago         /bin/sh -c rm -f /tmp/build_scipy_stack.sh /t   0 B
+9045d8e9195d        2 weeks ago         /bin/sh -c python3 -c "import matplotlib, sci   69.71 kB
+a3d7fa29c6e2        2 weeks ago         /bin/sh -c python2 -c "import matplotlib, sci   34.09 kB
+...
 ```
 
 
@@ -197,6 +287,13 @@ web:
 
 # References
 
+* [This presentation](http://odewahn.github.io/repeatable-workflows-docker-ipython/).  
+* [IPython Notebook](http://ipython.org/).  Main home for IPython and the IPython Notebook. 
+* [Notebook Gallery](https://github.com/ipython/ipython/wiki/A-gallery-of-interesting-IPython-Notebooks#reproducible-academic-publications).   An inspiring collection of notebooks from a variety of fields. 
+* [Docker](https://www.docker.com/).  Main homepage for Docker.
+* [boot2docker](http://boot2docker.io/). An additional tool for running Docker on a Mac or Windows.
+* [Fig](http://www.fig.sh/install.html).  A tool for managing Docker containers.
+* [Docker Jumpstart](http://odewahn.github.io/docker-jumpstart).  A free guide to Docker I put together based on my personal notes.
 
 
     </textarea>
@@ -206,5 +303,6 @@ web:
       var slideshow = remark.create();
     </script>
 
+    This is a test.
   </body>
 </html>
