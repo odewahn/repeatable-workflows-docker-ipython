@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Title</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
+
+    <link href='assets/html.css' rel='stylesheet' type='text/css'> </link>
+
+  </head>
+  <body>
+	
+  <a href="https://github.com/odewahn/repeatable-workflows-docker-ipython">
+    <img src="https://s3.amazonaws.com/orm-atlas-media/fork-on-github.png" class="fork-on-github"/>
+  </a>
+
+	
+<textarea id="source">
+
+class: center, middle
+
+# Demo Script
+ 
+---
+
+# At the command line
+
+## Clone [Just Enough Math](https://github.com/odewahn/jem-docker)
+
+## Start a new branch
+
+```bash
+git checkout -b novartis 
+```
+
+## Start the container
+
+```bash
+fig up
+```
+
+---
+
+# Open a new terminal
+
+## Show the container running
+
+```bash
+$ docker ps
+CONTAINER ID        IMAGE                  COMMAND                CREATED             STATUS              PORTS                    NAMES
+1ba2c2a0a6c4        jemdocker_web:latest   "/bin/sh -c 'ipython   4 days ago          Up 3 seconds        0.0.0.0:8888->8888/tcp   jemdocker_web_1
+````
+
+---
+
+# In the browser
+
+## Open server running the in VM
+
+```
+192.168.59.103:8888
+```
+
+## Show  _pre_flight_check.ipynb
+
+## Show  lesson05_least_squares.ipynb
+
+---
+
+# Create a new file
+
+## Add a file in ipynb
+
+## Change the file name to something like "novartis-test"
+
+## Go back to command line to show diff
+
+```bash
+git diff
+```
+
+---
+
+# Install a new dependency
+
+## Use cell magics to run a bash command to install a dependency direct from ipython
+
+```bash
+%%bash 
+
+pip install biopython
+```
+
+Wait a while for it to finish...
+
+## Show how docker tracks the file changes
+
+```bash
+docker diff
+```
+---
+
+# Go back to notebook server
+
+## Enter this into a code cell
+ 
+```python
+from Bio.Seq import Seq
+my_seq = Seq("AGTACACTGGT")
+```
+
+In a new cell, do this:
+
+```python
+print my_seq
+```
+
+and then do this:
+
+```python
+print my_seq.complement()
+```
+
+## Save the file
+
+---
+
+# Clean up in git
+
+
+
+## Add the new file and commit change
+
+## Show the full record of computation is saved
+
+```bash
+git diff master
+```
+
+
+
+    </textarea>
+    <script src="//gnab.github.io/remark/downloads/remark-latest.min.js">
+    </script>
+    <script>
+      var slideshow = remark.create();
+    </script>
+  </body>
+</html>
