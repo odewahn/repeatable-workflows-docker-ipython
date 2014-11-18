@@ -67,17 +67,20 @@ _November 19, 2014_
 
 ### "an open-source, interactive computing environment that lets you combine live code, narrative text, mathematics, plots and rich media in one document."
 
+* Founded by [Fernando Perez](http://fperez.org/) from U.C. Berkeley
 * 500K – 1.5M users
 * Used in scientific community to "narrate computation"
-* Applications as varied as
-  * Data visualization and plotting
-  * Earth Science and Geo-Spatial data
+* Applications in
+  * Biology
+  * Chemistry
+  * Data Science
   * Economics
+  * Geo-Spatial data
   * Machine Learning
-  * Physics, Chemistry, Biology
-  * Psychology and Neuroscience
+  * Physics
+  * Psychology
   * Social sciences
-  * Statistics, Machine Learning and Data Science
+  * Statistics
 
 ---
 
@@ -283,25 +286,27 @@ $ docker push odewahn/jem-docker
 ---
 # Audit trail
 
-```bash
-$ docker history <container_id>
-```
+`docker history` shows the build process for a specific image:
 
 ```bash
-$ docker history 8f7d
+$ docker history <image_id>
+
 IMAGE               CREATED             CREATED BY                                      SIZE
 8f7d431f32fa        2 weeks ago         /bin/sh -c #(nop) CMD [/bin/sh -c ipython2 no   0 B
 88dfeda79e2c        2 weeks ago         /bin/sh -c #(nop) WORKDIR /usr/src/notebook     0 B
 de650a94a6e0        2 weeks ago         /bin/sh -c #(nop) EXPOSE map[8888/tcp:{}]       0 B
 56f049f53134        2 weeks ago         /bin/sh -c apt-get install -y libsm6 libxrend   34.12 kB
-03f86519d96f        2 weeks ago         /bin/sh -c apt-get update &&   apt-get --no-i   31.53 MB
-c3fd655b60d5        2 weeks ago         /bin/sh -c #(nop) ENV DEBIAN_FRONTEND=noninte   0 B
-b2ba800a57e2        2 weeks ago         /bin/sh -c /tmp/install.sh                      209.5 MB
-2a51781b35d9        2 weeks ago         /bin/sh -c #(nop) ADD dir:5df532452cfce9cbd1a   798 B
-43373a8e96f8        2 weeks ago         /bin/sh -c #(nop) MAINTAINER Paco Nathan "htt   0 B
-b2346ec6f907        2 weeks ago         /bin/sh -c rm -f /tmp/build_scipy_stack.sh /t   0 B
-9045d8e9195d        2 weeks ago         /bin/sh -c python3 -c "import matplotlib, sci   69.71 kB
-a3d7fa29c6e2        2 weeks ago         /bin/sh -c python2 -c "import matplotlib, sci   34.09 kB
+...
+```
+
+`docker diff` shows changes made to the container as it runs:
+
+```bash
+$ docker diff <container_id>
+
+C /root
+C /root/.cache
+C /root/.cache/matplotlib
 ...
 ```
 
@@ -311,7 +316,7 @@ a3d7fa29c6e2        2 weeks ago         /bin/sh -c python2 -c "import matplotlib
 
 Local demo of [Just Enough Math](https://github.com/odewahn/jem-docker).  *NB*: This is a fork of [Paco's main project](https://github.com/ceteri/jem-docker)
 
-## Requirements
+### Requirements
 
 Currently, this project only runs on Ubuntu or on a Mac (using boot2docker).  Windows does not currently support local volumes, although that is an active area of development.
 
@@ -319,7 +324,7 @@ Currently, this project only runs on Ubuntu or on a Mac (using boot2docker).  Wi
 * boot2docker 1.3
 * fig 1.0.0
 
-## Instructions
+### Instructions
 
 * Clone [Just Enough Math](https://github.com/odewahn/jem-docker)
 * Run `fig up`
